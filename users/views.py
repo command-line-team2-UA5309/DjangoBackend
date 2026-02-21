@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -6,7 +5,6 @@ from rest_framework import status
 from .serializers import RegisterSerializer, MyTokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-
 
 class RegisterView(APIView):
     def post(self, request):
@@ -21,7 +19,7 @@ class RegisterView(APIView):
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsRegular]
     def post(self, request):
         try:
             refresh_token = request.data.get("refresh")
