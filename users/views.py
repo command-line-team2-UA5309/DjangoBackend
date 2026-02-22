@@ -5,6 +5,7 @@ from rest_framework import status
 from .serializers import RegisterSerializer, MyTokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .permissions import IsRegular
 
 class RegisterView(APIView):
     def post(self, request):
