@@ -5,6 +5,7 @@ from rest_framework import status
 from .serializers import RegisterSerializer, MyTokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 from .permissions import IsRegular
 
 class RegisterView(APIView):
@@ -16,8 +17,6 @@ class RegisterView(APIView):
             return Response({"message": "User created"}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-from rest_framework_simplejwt.tokens import RefreshToken
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated, IsRegular]

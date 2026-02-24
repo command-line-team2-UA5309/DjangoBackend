@@ -11,16 +11,6 @@ A microservice for user authentication and authorization based on Django and JWT
 
 ## Quick Start
 
-### Run with Docker
-
-1. Copy `.env.example` to `.env` and fill in the variables.
-
-2. Start the service:
-`docker-compose up --build`
-
-3. Migrations are usually handled automatically, but if not, run:
-`docker-compose exec <service_name> python manage.py migrate`
-
 ## Run locally
 
 1. Create virtual environment and install dependencies:
