@@ -1,4 +1,39 @@
-# template
+# Auth Service
+
+A microservice for user authentication and authorization based on Django and JWT.
+
+## Features
+
+- User registration
+- Authentication (login) with JWT access/refresh tokens
+- Token verification and refresh
+- User logout
+
+## Quick Start
+
+### Run with Docker
+
+1. Copy `.env.example` to `.env` and fill in the variables.
+
+2. Start the service:
+`docker-compose up --build`
+
+3. Migrations are usually handled automatically, but if not, run:
+`docker-compose exec <service_name> python manage.py migrate`
+
+## Run locally
+
+1. Create virtual environment and install dependencies:
+`python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt`.
+
+2. Configure the `.env` file.
+
+3. If you changed models.py, make migrations:
+`python manage.py makemigrations`
+
+4. Run migrations and start the server:
+`python manage.py migrate`,
+`python manage.py runserver`
 
 ## How to set up pre-commit hooks
 
