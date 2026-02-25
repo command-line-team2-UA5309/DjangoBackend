@@ -34,8 +34,8 @@ class LogoutView(APIView):
             return Response({"message": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT)
         except TokenError:
             return Response({"detail": "Token is invalid or expired"}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception:
-            logger.exception("Unexpected error during logout")
+        except Exception as e:
+            logger.exception("Error during logout: %s", e)
             return Response({"detail": "An error occurred during logout"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class MyTokenObtainPairView(TokenObtainPairView):
