@@ -19,4 +19,3 @@ class IsRegular(BasePermission):
         if request.user.is_banned:
             return False
         return request.user.role in ['regular', 'silver', 'golden']
-        
