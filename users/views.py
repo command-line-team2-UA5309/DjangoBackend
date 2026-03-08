@@ -41,6 +41,7 @@ class LogoutView(APIView):
             return Response({"detail": "An error occurred during logout"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
     def post(self, request, *args, **kwargs):
         daycode = request.data.get("daycode")
         if not daycode:
