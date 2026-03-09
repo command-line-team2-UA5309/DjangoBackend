@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.exceptions import TokenError
 from .permissions import IsRegular
+from django.conf import settings
+import requests
 import logging
 
 logger = logging.getLogger(__name__)
@@ -28,7 +30,7 @@ class LogoutView(APIView):
             refresh_token = request.data.get("refresh")
             if not refresh_token:
                 return Response({"error": "Refresh token required"}, status.HTTP_400_BAD_REQUEST)
-            
+
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response({"message": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT)
@@ -40,3 +42,22 @@ class LogoutView(APIView):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    def post(self, request, *args, **kwargs):
+        daycode = request.data.get("daycode")
+        if not daycode:
+            return Response({"detail": "Daycode required"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            resp = requests.post(
+                f"{settings.DAILYPASS_SERVICE_URL}/check-code",
+                json={"daycode": daycode},
+                timeout=2
+            )
+            if resp.status_code != 200 or resp.json().get("status") != "ok":
+                return Response({"detail": "Invalid daycode"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        except Exception as e:
+            logger.exception("Error during daycode check: %s", e)
+            return Response({"detail": "Daycode service error"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+        request.data.pop("daycode", None)
+        return super().post(request, *args, **kwargs)

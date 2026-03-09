@@ -13,7 +13,7 @@ REST_FRAMEWORK = {
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-SIMPLE_JWT = { 
+SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'BLACKLIST_AFTER_ROTATION': True,
@@ -131,4 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+cors_origins = os.getenv("CORS_ALLOWED_ORIGINS")
+CORS_ALLOWED_ORIGINS = cors_origins.split(",") if cors_origins else []
+
+DAILYPASS_SERVICE_URL = os.getenv("DAILYPASS_SERVICE_URL")
